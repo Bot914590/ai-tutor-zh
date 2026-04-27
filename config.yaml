@@ -1,0 +1,6 @@
+model:
+  default: "qwen3.5:4b"
+
+generation:
+  temperature: 0.2
+  max_tokens: 1024
