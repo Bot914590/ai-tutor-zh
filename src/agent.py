@@ -17,7 +17,10 @@ def load_config() -> dict:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
             config = yaml.safe_load(f)
     else:
-        config = {"model":"qwen3.5:4b", "generation_temperature": 0.2 , "generation_max_tokens": 1024}
+        config = {
+            "model": {"default": "qwen3.5:4b"},
+            "generation": {"temperature": 0.2, "max_tokens": 1024}
+}
 
     return config
 
@@ -36,7 +39,7 @@ def run_agent(user_input:str, user_mode:str, config:dict) -> str:
 5. Определи уровень HSK.
 
 ПРИМЕР:
-Запрос: "Объясни разницу между 就 и 才"
+Запрос: {user_input}
 Ответ: ###ДОБАВТЬ ПРИМЕРЫ НУЖНО###
 
                     """
@@ -77,6 +80,7 @@ def run_agent(user_input:str, user_mode:str, config:dict) -> str:
         return result
     except Exception as e: 
         logging.error(f"Ошибка в run_agent: {e}")
+        return "Не удалось получить ответ. Проверьте, запущен ли Ollama."
 
 
 def main():
@@ -96,7 +100,7 @@ def main():
     
 
         result = run_agent(user_input, user_mode, config)
-        print(result["response"]) # рендер будет выводить в json и сдесь выводится только ответ остальное в логи
+        print(result)
 
 if __name__ == "__main__":
     main()
