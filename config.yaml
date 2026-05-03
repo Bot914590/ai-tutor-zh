@@ -1,6 +1,6 @@
 model:
-  default: "qwen3.5:4b"
+  default: "tencent/hy3-preview:free"
 
 generation:
   temperature: 0.2
-  max_tokens: 1024
+  max_tokens: 4096
