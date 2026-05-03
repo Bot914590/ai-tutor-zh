@@ -25,7 +25,7 @@ def load_config() -> dict:
     return config
 
 def run_agent(user_input:str, user_mode:str, config:dict) -> str: 
-    def build_prompt(): #версия пока без json
+    def build_prompt() -> str: #версия пока без json
         if user_mode == "/grammar":
             prompt = """
 Ты — профессиональный репетитор китайского языка (уровни HSK 1–5). 
@@ -43,6 +43,7 @@ def run_agent(user_input:str, user_mode:str, config:dict) -> str:
 Ответ: ###ДОБАВТЬ ПРИМЕРЫ НУЖНО###
 
                     """
+            return prompt
         elif user_mode == "/dialog":
             prompt = """
 Ты — профессиональный репетитор китайского языка (уровни HSK 1–5). 
@@ -59,7 +60,7 @@ def run_agent(user_input:str, user_mode:str, config:dict) -> str:
 Запрос: ""
 Ответ: 
                     """
-            
+            return prompt    
         return prompt
     
     client = OpenAI(
@@ -70,9 +71,10 @@ def run_agent(user_input:str, user_mode:str, config:dict) -> str:
     gen = config["generation"]
 
     try:
+        prompt = build_prompt()
         response = client.chat.completions.create(
             model=config["model"],  # "qwen3.5:4b"
-            messages=[{"role": "user", "content": build_prompt()}],
+            messages=[{"role": "user", "content": prompt}],
             temperature=config["temperature"],
             max_tokens=config["max_tokens"]
         )
