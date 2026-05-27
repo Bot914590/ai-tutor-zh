@@ -9,10 +9,8 @@ from pathlib import Path
 from openai import OpenAI
 from dotenv import load_dotenv
 
-# Загружаем .env если есть
 load_dotenv()
 
-# === Фикс кодировки для Windows ===
 if sys.platform == 'win32':
     if hasattr(sys.stdout, 'buffer'):
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
@@ -21,7 +19,6 @@ if sys.platform == 'win32':
     if hasattr(sys.stdin, 'buffer'):
         sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 
-# === Настройка путей ===
 BASE_DIR = Path(__file__).parent.parent
 PROMPTS_DIR = BASE_DIR / "src" / "prompts"
 CONFIG_PATH = BASE_DIR / "config.yaml"
@@ -41,14 +38,13 @@ def _load_api_key() -> str:
         "API-ключ не найден"
     )
 
-# === Логирование ===
-LOGS_DIR.mkdir(exist_ok=True)  # создаём папку logs, если нет
+LOGS_DIR.mkdir(exist_ok=True) 
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler(),           # вывод в консоль
+        logging.StreamHandler(),        
         logging.FileHandler(LOG_FILE, encoding='utf-8')  # запись в файл
     ]
 )
